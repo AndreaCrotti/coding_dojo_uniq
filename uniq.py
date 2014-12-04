@@ -2,19 +2,45 @@ import sys
 import argparse
 import unittest
 
+from collections import Counter
 
-def uniq(inp):
-    seen = set()
-    for line in inp.splitlines():
-        if line not in seen:
-            seen.add(line)
-            yield line
+
+def count(inp):
+    pass
+
+
+def uniq(inp, with_count=False):
+    counter = 1
+    last = None
+
+    for line in inp.splitlines() + ['\n']:
+        if last is None:
+            last = line
+            continue
+
+        if line != last:
+            if with_count:
+                result = "{} {}".format(counter, last)
+            else:
+                result = last
+
+            yield result
+            counter = 1
+        else:
+            counter += 1
+
+        last = line
 
 
 class TestUniq(unittest.TestCase):
     def test_simple_uniq(self):
-        inp = "line\nhello\nline"
-        self.assertEqual(list(uniq(inp)), ["line", "hello"])
+        inp, out = "line\nline\ntest\nline", ["line", "test", "line"]
+        self.assertEqual(list(uniq(inp)), out)
+
+    def test_counting_occurrences(self):
+        inp = "line\nline\nhello"
+        desired = ["2 line", "1 hello"]
+        self.assertEqual(list(uniq(inp, with_count=True)), desired)
 
 
 def parser():
@@ -34,3 +60,10 @@ if __name__ == '__main__':
             result = '\n'.join(uniq(input.read())) + '\n'
             output = open(ns.output_file, 'w') if ns.output_file else sys.stdout
             output.write(result)
+
+
+
+
+
+
+
