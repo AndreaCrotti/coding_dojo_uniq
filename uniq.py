@@ -40,7 +40,7 @@ class TestUniq(unittest.TestCase):
 
 
 def parser():
-    parser = argparse.ArgumentParser(description='uniq')
+    parser = argparse.ArgumentParser(description='See man uniq for more info')
     parser.add_argument('input_file', nargs=1)
     parser.add_argument('output_file', nargs='?')
     parser.add_argument('-c', dest='counter', action='store_true')
