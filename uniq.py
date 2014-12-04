@@ -30,14 +30,7 @@ if __name__ == '__main__':
         unittest.main()
     else:
         ns = parser()
-        print(ns)
-
-
-
-
-
-
-
-
-
-
+        with open(ns.input_file[0]) as input:
+            result = '\n'.join(uniq(input.read())) + '\n'
+            output = open(ns.output_file, 'w') if ns.output_file else sys.stdout
+            output.write(result)
